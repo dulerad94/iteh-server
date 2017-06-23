@@ -2,8 +2,8 @@
 
 require_once 'Connection.php';
 
-class Receipt
-{
+class Receipt{
+
 
     public $receiptID;
     public $time;
@@ -11,6 +11,7 @@ class Receipt
     public $tableNumber;
     public $amount;
     public $items;
+
 
 
     /**
@@ -45,11 +46,11 @@ class Receipt
             return null;
         }
     }
-    public static function getAllReceipts($sort)
+    public static function getAllReceipts($sort,$filter)
     {
         $receipts = array();
         try {
-            $sql = "Select * from receipt order by time $sort";
+            $sql = "Select * from receipt where person like '%".$filter."%' order by time $sort";
             global $conn;
             $result = $conn->query($sql);
 

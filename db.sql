@@ -45,11 +45,11 @@ CREATE TABLE `receipt_item` (
   `quantity` int(11) DEFAULT NULL,
   PRIMARY KEY (`receiptID`,`receiptItemID`),
   KEY `stavkaRacunaID` (`receiptItemID`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 /*Data for the table `receipt_item` */
 
-insert  into `receipt_item`(`receiptID`,`receiptItemID`,`amount`,`product`,`quantity`) values (1,1,200,'Koca',1);
+insert  into `receipt_item`(`receiptID`,`receiptItemID`,`amount`,`product`,`quantity`) values (14,1,200,'Koca',1),(14,5,500,'Micko',15),(14,3,700,'Ruza',2),(15,6,1000,'Kupus',21),(14,7,100,'Pepsi',1),(15,8,200,'Fanta',1),(15,9,200,'Gulas',8),(16,11,200,'Rosa',20);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

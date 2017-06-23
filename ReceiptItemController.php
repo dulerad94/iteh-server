@@ -49,7 +49,7 @@ class ReceiptItemController extends BaseController{
         parse_str(file_get_contents("php://input"),$_GET);
         if (isset($_GET['receiptID']) && isset($_GET['receiptID'])){
             $receipt=new ReceiptItem(Receipt::getReceipt($_GET['receiptID']),$_GET['receiptItemID'],null,null,null);
-            return $receipt->deleteReceipt();
+            return $receipt->deleteItem();
         }
         return '{"success":"false"}';
     }

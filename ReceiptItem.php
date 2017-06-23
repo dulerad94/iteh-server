@@ -2,13 +2,15 @@
 
 require_once 'Connection.php';
 
-class ReceiptItem{
+class ReceiptItem {
 
-    public $receipt;
+    private $receipt;
     public $receiptItemID;
+    public $receiptID;
     public $amount;
     public $product;
     public $quantity;
+
 
     /**
      * Receipt constructor.
@@ -37,7 +39,7 @@ class ReceiptItem{
 
             while ($row = $result->fetch_assoc()) {
                 $item = new ReceiptItem($receipt, $row['receiptItemID'], $row['amount'], $row['product'], $row['quantity']);
-                
+                $item->receiptID=$receipt->receiptID;
                 array_push($items,$item);
             }
 
@@ -49,24 +51,36 @@ class ReceiptItem{
     }
     public function insertItem(){
         try {
-            $sql = "INSERT INTO receipt_item values(".$this->receipt->receiptID.",null,$this->amount,'$this->product',$this->quantity)";
+            $sql = "INSERT INTO receipt_item values(".$this->receipt->receiptID.",null,".$this->amount.",'".$this->product."',".$this->quantity.")";
             global $conn;
             $conn->query($sql);
             $this->receiptItemID = $conn->insert_id;
+            $this->receiptID=$this->receipt->receiptID;
         }catch(Exception $e){
             return '{"success":"false"}';
         }
-        return '{"success":"true"}';
+        return '{"success":"true","item":'.json_encode($this).'}';
     }
     public function deleteItem(){
-        $sql="DELETE FROM receipt where receiptID=$this->receipt->receiptID and receiptItemID=$this->receiptItemID";
-        global $conn;
-        $conn->query($sql);
+        try {
+            $sql = "DELETE FROM receipt_item where receiptID=".$this->receipt->receiptID." and receiptItemID=".$this->receiptItemID;
+            global $conn;
+            $conn->query($sql);
+        }catch(Exception $e){
+            return '{"success":"false"}';
+        }
+        return '{"success":"true","id":"'.$this->receiptItemID.'"}';
     }
     public function updateItem(){
-        $sql="UPDATE receipt SET amount=$this->amount,product='$this->product',quantity=$this->quantity where receiptID=$this->receipt->receiptID and receiptItemID=$this->receiptItemID";
-        global $conn;
-        $conn->query($sql);
+        try {
+            $sql = "UPDATE receipt_item SET amount=".$this->amount.",product='".$this->product."',quantity=".$this->quantity." where receiptID=".$this->receipt->receiptID." and receiptItemID=".$this->receiptItemID;
+            global $conn;
+            $conn->query($sql);
+            $this->receiptID=$this->receipt->receiptID;
+        }catch(Exception $e){
+            return '{"success":"false"}';
+        }
+        return '{"success":"true","item":'.json_encode($this).'}';
     }
 
 }

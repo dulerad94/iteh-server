@@ -19,12 +19,15 @@ class ReceiptController extends BaseController{
     public function select()
     {
         $sort="ASC";
-
+        $filter="";
         if (isset($_GET['sort'])){
             $sort=$_GET['sort'];
         }
+        if(isset($_GET['filter'])){
+            $filter=$_GET['filter'];
+        }
 
-        return Receipt::getAllReceipts($sort);
+        return Receipt::getAllReceipts($sort,$filter);
     }
 
     public function insert()
